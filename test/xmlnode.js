@@ -32,11 +32,10 @@ describe('xmlnode', function(){
       .pipe(memory(result))
       .on('finish', function(err) {
         result.should.have.length(2);
-        result[0].should.have.property('children');
-        result[0].children.A.should.have.property('value', 'abc');
-        result[0].children.B.should.have.property('value', '15');
-        result[1].children.A.should.have.property('value', 'def');
-        result[1].children.B.should.have.property('value', '16');
+        result[0].A.should.equal('abc');
+        result[0].B.should.equal('15');
+        result[1].A.should.equal('def');
+        result[1].B.should.equal('16');
         done(err);
       });
   });
@@ -52,11 +51,10 @@ describe('xmlnode', function(){
       .pipe(memory(result))
       .on('finish', function(err) {
         result.should.have.length(2);
-        result[0].should.have.property('children');
-        result[0].children.a.should.have.property('value', 'abc');
-        result[0].children.b.should.have.property('value', '15');
-        result[1].children.a.should.have.property('value', 'def');
-        result[1].children.b.should.have.property('value', '16');
+        result[0].a.should.equal('abc');
+        result[0].b.should.equal('15');
+        result[1].a.should.equal('def');
+        result[1].b.should.equal('16');
         done(err);
       });
   });
@@ -77,8 +75,8 @@ describe('xmlnode', function(){
 
         item = result[0];
 
-        a = item.children.a;
-        b = item.children.b;
+        a = item.a;
+        b = item.b;
 
         a.should.have.length(3);
         b.should.be.type('object');
@@ -103,11 +101,10 @@ describe('xmlnode', function(){
 
         result.should.have.length(1);
         item = result[0];
-        item.should.have.property('children');
         item.should.not.have.property('attribs');
 
-        a = item.children.A;
-        b = item.children.B;
+        a = item.A;
+        b = item.B;
 
         a.should.have.length(3);
         b.should.be.type('object');
@@ -142,11 +139,10 @@ describe('xmlnode', function(){
       .pipe(memory(result))
       .on('finish', function(err) {
         result.should.have.length(2);
-        result[0].should.have.property('children');
-        result[0].children.A.should.have.property('value', 'abc');
-        result[0].children.B.should.have.property('value', '15');
-        result[1].children.A.should.have.property('value', 'def');
-        result[1].children.B.should.have.property('value', '16');
+        result[0].A.should.equal('abc');
+        result[0].B.should.equal('15');
+        result[1].A.should.equal('def');
+        result[1].B.should.equal('16');
         done(err);
       });
   });
