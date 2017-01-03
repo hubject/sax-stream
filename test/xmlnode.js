@@ -81,7 +81,7 @@ describe('xmlnode', function(){
         a.should.have.length(3);
         b.should.be.type('object');
 
-        a[0].attribs.attr.should.eql('1');
+        a[0].attr.should.eql('1');
 
         done(err);
       });
@@ -101,7 +101,6 @@ describe('xmlnode', function(){
 
         result.should.have.length(1);
         item = result[0];
-        item.should.not.have.property('attribs');
 
         a = item.A;
         b = item.B;
@@ -110,20 +109,16 @@ describe('xmlnode', function(){
         b.should.be.type('object');
 
         a[0].should.have.property('value', 'abc');
-        a[0].should.have.property('attribs');
-        a[0].attribs.ATTR.should.eql('1');
+        a[0].ATTR.should.eql('1');
 
         a[1].should.have.property('value', 'def');
-        a[1].should.have.property('attribs');
-        a[1].attribs.ATTR.should.eql('2');
+        a[1].ATTR.should.eql('2');
 
         a[2].should.have.property('value', 'ghi');
-        a[2].should.have.property('attribs');
-        a[2].attribs.ATTR.should.eql('3');
+        a[2].ATTR.should.eql('3');
 
         b.should.have.property('value', '15');
-        b.should.have.property('attribs');
-        b.attribs.ATTR.should.eql('4');
+        b.ATTR.should.eql('4');
 
         done(err);
       });
