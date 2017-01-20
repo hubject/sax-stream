@@ -27,13 +27,18 @@ describe('xmlnode', function () {
 
         fs.createReadStream(__dirname + '/two.xml')
             .pipe(xmlnode({
-                tag: 'ITEM'
+                tag: 'ITEM',
+                debug: true
             }))
             .pipe(memory(result))
             .on('finish', function (err) {
                 result.should.have.length(2);
                 result[0].A.should.equal('abc');
                 result[0].B.should.equal('15');
+                result[0].CS.C.should.have.length(3);
+                result[0].CS.C[0].should.equal('1');
+                result[0].CS.C[1].should.equal('2');
+                result[0].CS.C[2].should.equal('3');
                 result[1].A.should.equal('def');
                 result[1].B.should.equal('16');
                 done(err);
