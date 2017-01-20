@@ -36,6 +36,7 @@ request('http://blog.npmjs.org/rss')
 
 Create passing options object:
 
+- `omitNsPrefix` - if set to `true`, removes namespace prefix of elements
 - `tag` - name of the tag to select objects from XML file
 - `highWaterMark` - size of internal transform stream buffer - defaults to 350 objects
 - `strict` - default to false, if `true` makes sax parser to accept valid XML only
