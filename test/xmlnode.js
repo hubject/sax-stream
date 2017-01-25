@@ -76,7 +76,7 @@ describe('xmlnode', function () {
             .on('finish', function (err) {
                 var item, a, b;
 
-                result.should.have.length(1);
+                result.should.have.length(2);
 
                 item = result[0];
 
@@ -103,18 +103,71 @@ describe('xmlnode', function () {
             .pipe(memory(result))
             .on('finish', function (err) {
 
-                var item, a, b;
+                var item, a, b, c, d;
+
+                result.should.have.length(2);
+                item = result[0];
+
+                item.should.have.property('A');
+                item.should.have.property('B');
+                item.should.have.property('C');
+                item.should.have.property('D');
+
+                a = item.A;
+                b = item.B;
+                c = item.C;
+                d = item.D;
+
+                a.should.have.length(3);
+                b.should.be.type('object');
+                d.should.have.length(2);
+
+                a[0].should.have.property('value', 'abc');
+                a[0].ATTR.should.eql('1');
+
+                a[1].should.have.property('value', 'def');
+                a[1].ATTR.should.eql('2');
+
+                a[2].should.have.property('value', 'ghi');
+                a[2].ATTR.should.eql('3');
+
+                b.should.have.property('value', '15');
+                b.ATTR.should.eql('4');
+
+                d[0].should.equal('DDD');
+
+                done(err);
+            });
+    });
+    it('should parse nodes but omitting empty tags', function (done) {
+        var result = [];
+
+        fs.createReadStream(__dirname + '/three.xml')
+            .pipe(xmlnode({
+                tag: 'ITEM',
+                omitNsPrefix: true,
+                omitEmpty: true
+            }))
+            .pipe(memory(result))
+            .on('finish', function (err) {
+
+                var item, a, b, d;
 
                 result.should.have.length(1);
                 item = result[0];
 
                 item.should.have.property('A');
+                item.should.have.property('B');
+                item.should.not.have.property('C');
+                item.should.have.property('D');
 
                 a = item.A;
                 b = item.B;
+                d = item.D;
 
                 a.should.have.length(3);
                 b.should.be.type('object');
+                d.should.have.length(1);
 
                 a[0].should.have.property('value', 'abc');
                 a[0].ATTR.should.eql('1');
