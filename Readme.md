@@ -20,7 +20,6 @@ transform/writeable stream or handle `data` event.
 ```javascript
 var saxStream = require('sax-stream');
 
-
 request('http://blog.npmjs.org/rss')
   .pipe(saxStream({
   	strict: true,
@@ -37,10 +36,11 @@ request('http://blog.npmjs.org/rss')
 Create passing options object:
 
 - `omitNsPrefix` - if set to `true`, removes namespace prefix of elements
-- `tag` - name of the tag to select objects from XML file
+- `tag` - name of the tag to select objects from XML file (this or `tags` is required)
+- `tags` - name of tags to select objects from XML file (this or `tag` is required)
 - `highWaterMark` - size of internal transform stream buffer - defaults to 350 objects
 - `strict` - default to false, if `true` makes sax parser to accept valid XML only
-- `trim`, `normalize`, `lowercase`, `xmlns`, `position`, `strictEntities`, `noscript` - passed to [sax] parser
+- `normalize`, `lowercase`, `xmlns`, `position`, `strictEntities`, `noscript` - passed to [sax] parser
 
 # License
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<five>
+    <itemA>
+        a1
+    </itemA>
+    <itemA>
+        a2
+    </itemA>
+    <itemB>
+        b1
+    </itemB>
+    <itemB>
+        b2
+    </itemB>
+    <itemA>
+        a3
+    </itemA>
+</five>

@@ -204,21 +204,22 @@ describe('xmlnode', function () {
             });
     });
 
-    it('should parse script elements', function (done) {
+    it('should parse multiple tags', function (done) {
         var result = [];
 
-        fs.createReadStream(__dirname + '/page.html')
+        fs.createReadStream(__dirname + '/five.xml')
             .pipe(xmlnode({
-                tag: 'SCRIPT',
-                trim: true,
-                strict: false,
-                noscript: true
+                tags: ['itema', 'itemb'],
+                lowercase: true
             }))
             .pipe(memory(result))
             .on('finish', function (err) {
-                result.should.have.length(2);
-                result[0].should.have.property('value', 'var z = 5;');
-                result[1].should.have.property('value', 'z += 3;');
+                result.should.have.length(5);
+                result[0].should.equal('a1');
+                result[1].should.equal('a2');
+                result[2].should.equal('b1');
+                result[3].should.equal('b2');
+                result[4].should.equal('a3');
                 done(err);
             });
 
