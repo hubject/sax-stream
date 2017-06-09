@@ -1,5 +1,5 @@
 {
-  "name": "sax-stream",
+  "name": "@hubject/sax-stream",
   "version": "1.2.6",
   "description": "Transform stream implemented using SAX parser",
   "main": "index.js",
