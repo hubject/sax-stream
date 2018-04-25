@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<five>
-    <itemA>
+<six xmlns:ns="test">
+    <ns:item>
         a1
-    </itemA>
-    <itemA>
+    </ns:item>
+    <ns:item>
         a2
-    </itemA>
-    <itemB>
-        b1
-    </itemB>
-    <itemB>
-        b2
-    </itemB>
-    <itemA>
+    </ns:item>
+    <ns:item>
         a3
-    </itemA>
-</five>
+    </ns:item>
+</six>

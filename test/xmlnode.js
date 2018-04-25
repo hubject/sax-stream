@@ -225,4 +225,21 @@ describe('xmlnode', function () {
 
     });
 
+    it('should omit ns prefix and search for unprefixed tag', function (done) {
+        var result = [];
+
+        fs.createReadStream(__dirname + '/six.xml')
+            .pipe(xmlnode({
+                tag: 'item',
+                strict: true,
+                omitNsPrefix: true,
+            }))
+            .pipe(memory(result))
+            .on('finish', function (err) {
+                result.should.have.length(3);
+                done(err);
+            });
+
+    });
+
 });
