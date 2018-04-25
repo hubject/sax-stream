@@ -36,7 +36,7 @@ export interface SAXStreamTagsOptions extends SAXStreamBaseOptions {
     /**
      * name of tags to select objects from XML file (this or `tag` is required)
      */
-    tags: string;
+    tags: string[];
 }
 
 interface SAXOptions {
