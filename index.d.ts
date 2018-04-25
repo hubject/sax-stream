@@ -1,4 +1,4 @@
-import * as Stream from 'stream';
+import {Transform} from 'stream';
 
 export interface SAXStreamBaseOptions {
 
@@ -50,6 +50,4 @@ interface SAXOptions {
 
 export type SAXStreamOptions = (SAXStreamTagOptions | SAXStreamTagsOptions) & SAXOptions;
 
-
-
-export default function saxStream(options: SAXStreamOptions): Stream;
+export default function saxStream(options: SAXStreamOptions): Transform;
