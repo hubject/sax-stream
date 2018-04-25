@@ -1,6 +1,6 @@
 {
   "name": "@hubject/sax-stream",
-  "version": "1.4.0-beta.0",
+  "version": "2.0.0-beta.0",
   "description": "Transform stream implemented using SAX parser",
   "main": "index.js",
   "types": "index.d.ts",
