@@ -8,6 +8,11 @@ export interface SAXStreamOptions {
     omitNsPrefix: boolean;
 
     /**
+     * if set to `true`, removes properties with empty values
+     */
+    omitEmpty: boolean;
+
+    /**
      * name of the tag to select objects from XML file (this or `tags` is required)
      */
     tag: string;

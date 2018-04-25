@@ -1,1 +1,1 @@
-module.exports = require('./lib/xmlnode');
+exports.default = require('./lib/xmlnode');
