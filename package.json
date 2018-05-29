@@ -26,11 +26,12 @@
   "devDependencies": {
     "@types/node": "^9.6.6",
     "jshint": "~2",
-    "mocha": "~2",
+    "mocha": "^5.2.0",
+    "reflect-metadata": "^0.1.12",
     "should": "~8"
   },
   "dependencies": {
-    "sax": "~1",
-    "debug": "~2"
+    "debug": "~2",
+    "sax": "~1"
   }
 }

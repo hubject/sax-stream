@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-var xmlnode = require('..');
+var xmlnode = require('..').default;
 var memory = require('./memory');
 
 /*global describe, it */
