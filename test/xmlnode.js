@@ -209,8 +209,8 @@ describe('xmlnode', function () {
 
         fs.createReadStream(__dirname + '/five.xml')
             .pipe(xmlnode({
-                tags: ['itema', 'itemb'],
-                lowercase: true
+                tags: ['itemA', 'itemB'],
+                strict: true,
             }))
             .pipe(memory(result))
             .on('finish', function (err) {
@@ -220,6 +220,29 @@ describe('xmlnode', function () {
                 result[2].should.equal('b1');
                 result[3].should.equal('b2');
                 result[4].should.equal('a3');
+                done(err);
+            });
+
+    });
+
+    it('should parse multiple tags and be able to listen for each tag respectively', function (done) {
+        var itemAs = [];
+        var itemBs = [];
+
+        fs.createReadStream(__dirname + '/five.xml')
+            .pipe(xmlnode({
+                tags: ['itemA', 'itemB'],
+                strict: true,
+            }))
+            .on('itemA', function(item) {
+                itemAs.push(item);
+            })
+            .on('itemB', function(item) {
+                itemBs.push(item);
+            })
+            .on('finish', function (err) {
+                itemAs.should.have.length(3);
+                itemBs.should.have.length(2);
                 done(err);
             });
 

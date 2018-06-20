@@ -24,11 +24,28 @@ request('http://blog.npmjs.org/rss')
   .pipe(saxStream({
   	strict: true,
     tag: 'item'
-  })
+  }))
   .on('data', function(item) {
     console.log(item);
   });
+```
 
+### Multiple tags
+```javascript
+var saxStream = require('sax-stream');
+
+request('http://blog.npmjs.org/rss')
+  .pipe(saxStream({
+  	strict: true,
+    tags: ['itemA', 'itemB']
+  }))
+  .on('itemA', function(item) {
+    console.log('Item A', item);
+  })
+  .on('itemB', function(item) {
+    console.log('Item B', item);
+  })
+  ;
 ```
 
 ## API
