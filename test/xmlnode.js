@@ -226,6 +226,7 @@ describe('xmlnode', function () {
     });
 
     it('should parse multiple tags and be able to listen for each tag respectively', function (done) {
+        var results = [];
         var itemAs = [];
         var itemBs = [];
 
@@ -234,6 +235,9 @@ describe('xmlnode', function () {
                 tags: ['itemA', 'itemB'],
                 strict: true,
             }))
+            .on('data', function(item) {
+                results.push(item);
+            })
             .on('itemA', function(item) {
                 itemAs.push(item);
             })
@@ -243,6 +247,7 @@ describe('xmlnode', function () {
             .on('finish', function (err) {
                 itemAs.should.have.length(3);
                 itemBs.should.have.length(2);
+                results.should.have.length(5);
                 done(err);
             });
 
