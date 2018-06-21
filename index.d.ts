@@ -51,3 +51,6 @@ interface SAXOptions {
 export type SAXStreamOptions = (SAXStreamTagOptions | SAXStreamTagsOptions) & SAXOptions;
 
 export default function saxStream(options: SAXStreamOptions): Transform;
+export function XmlNode(options: SAXStreamOptions): Transform;
+export function saxStream(options: SAXStreamOptions): Transform;
+export function tags(handlerMap: {[tag: string]: ((data) => any)}): (...args: any[]) => void;

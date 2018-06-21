@@ -1,13 +1,14 @@
 var fs = require('fs');
 
 var xmlnode = require('..').default;
+var tags = require('..').tags;
 var memory = require('./memory');
 
 /*global describe, it */
 
 
-describe('xmlnode', function () {
-    it('should parse a single empty node', function (done) {
+describe('xmlnode', function() {
+    it('should parse a single empty node', function(done) {
         var result = [];
 
         fs.createReadStream(__dirname + '/one.xml')
@@ -15,14 +16,14 @@ describe('xmlnode', function () {
                 tag: 'ITEM'
             }))
             .pipe(memory(result))
-            .on('finish', function (err) {
+            .on('finish', function(err) {
                 result.should.have.length(1);
                 result[0].should.eql({});
                 done(err);
             });
     });
 
-    it('should parse nodes with text', function (done) {
+    it('should parse nodes with text', function(done) {
         var result = [];
 
         fs.createReadStream(__dirname + '/two.xml')
@@ -31,7 +32,7 @@ describe('xmlnode', function () {
                 debug: true
             }))
             .pipe(memory(result))
-            .on('finish', function (err) {
+            .on('finish', function(err) {
                 result.should.have.length(2);
                 result[0].A.should.equal('abc');
                 result[0].B.should.equal('15');
@@ -45,7 +46,7 @@ describe('xmlnode', function () {
             });
     });
 
-    it('should parse nodes with text in strict mode', function (done) {
+    it('should parse nodes with text in strict mode', function(done) {
         var result = [];
 
         fs.createReadStream(__dirname + '/two.xml')
@@ -54,7 +55,7 @@ describe('xmlnode', function () {
                 tag: 'item'
             }))
             .pipe(memory(result))
-            .on('finish', function (err) {
+            .on('finish', function(err) {
                 result.should.have.length(2);
                 result[0].a.should.equal('abc');
                 result[0].b.should.equal('15');
@@ -64,7 +65,7 @@ describe('xmlnode', function () {
             });
     });
 
-    it('should parse nodes and attributes in lowercase mode', function (done) {
+    it('should parse nodes and attributes in lowercase mode', function(done) {
         var result = [];
 
         fs.createReadStream(__dirname + '/three.xml')
@@ -73,7 +74,7 @@ describe('xmlnode', function () {
                 tag: 'item'
             }))
             .pipe(memory(result))
-            .on('finish', function (err) {
+            .on('finish', function(err) {
                 var item, a, b;
 
                 result.should.have.length(2);
@@ -92,7 +93,7 @@ describe('xmlnode', function () {
             });
     });
 
-    it('should parse nodes with attributes when configured', function (done) {
+    it('should parse nodes with attributes when configured', function(done) {
         var result = [];
 
         fs.createReadStream(__dirname + '/three.xml')
@@ -101,7 +102,7 @@ describe('xmlnode', function () {
                 omitNsPrefix: true
             }))
             .pipe(memory(result))
-            .on('finish', function (err) {
+            .on('finish', function(err) {
 
                 var item, a, b, c, d;
 
@@ -139,7 +140,7 @@ describe('xmlnode', function () {
                 done(err);
             });
     });
-    it('should parse nodes but omitting empty tags', function (done) {
+    it('should parse nodes but omitting empty tags', function(done) {
         var result = [];
 
         fs.createReadStream(__dirname + '/three.xml')
@@ -149,7 +150,7 @@ describe('xmlnode', function () {
                 omitEmpty: true
             }))
             .pipe(memory(result))
-            .on('finish', function (err) {
+            .on('finish', function(err) {
 
                 var item, a, b, d;
 
@@ -185,7 +186,7 @@ describe('xmlnode', function () {
             });
     });
 
-    it('should parse nodes with cdata', function (done) {
+    it('should parse nodes with cdata', function(done) {
         var result = [];
 
         fs.createReadStream(__dirname + '/four.xml')
@@ -194,7 +195,7 @@ describe('xmlnode', function () {
                 omitNsPrefix: true
             }))
             .pipe(memory(result))
-            .on('finish', function (err) {
+            .on('finish', function(err) {
                 result.should.have.length(2);
                 result[0].A.should.equal('abc');
                 result[0].B.should.equal('15');
@@ -204,77 +205,63 @@ describe('xmlnode', function () {
             });
     });
 
-    it('should parse multiple tags', function (done) {
-        var result = [];
+    it('should parse multiple tags', function(done) {
+        const itemAs = [];
+        const itemBs = [];
 
         fs.createReadStream(__dirname + '/five.xml')
             .pipe(xmlnode({
                 tags: ['itemA', 'itemB'],
+                strict: true,
+            }))
+            .on('data', ({itemA, itemB}) => {
+                itemA && itemAs.push(itemA);
+                itemB && itemBs.push(itemB);
+            })
+            .on('finish', function(err) {
+                itemAs.should.have.length(3);
+                itemBs.should.have.length(2);
+                done(err);
+            });
+    });
+
+    it('should parse one tag when tags option is set with only one tag key', function(done) {
+        const result = [];
+
+        fs.createReadStream(__dirname + '/five.xml')
+            .pipe(xmlnode({
+                tags: ['itemA'],
                 strict: true,
             }))
             .pipe(memory(result))
-            .on('finish', function (err) {
-                result.should.have.length(5);
-                result[0].should.equal('a1');
-                result[1].should.equal('a2');
-                result[2].should.equal('b1');
-                result[3].should.equal('b2');
-                result[4].should.equal('a3');
+            .on('finish', function(err) {
+                result.should.have.length(3);
                 done(err);
             });
-
     });
 
-    it('should parse multiple tags and be able to listen for each tag respectively', function (done) {
-        var itemAs = [];
-        var itemBs = [];
+    it('should parse multiple tags with helper', function(done) {
+        const itemAs = [];
+        const itemBs = [];
 
         fs.createReadStream(__dirname + '/five.xml')
             .pipe(xmlnode({
                 tags: ['itemA', 'itemB'],
                 strict: true,
             }))
-            .on('itemA', function(item) {
-                itemAs.push(item);
-            })
-            .on('itemB', function(item) {
-                itemBs.push(item);
-            })
-            .on('finish', function (err) {
-                itemAs.should.have.length(3);
-                itemBs.should.have.length(2);
-                done(err);
-            });
-    });
-
-    it('should parse multiple tags and be able to listen for each tag respectively (with data event)', function (done) {
-        var results = [];
-        var itemAs = [];
-        var itemBs = [];
-
-        fs.createReadStream(__dirname + '/five.xml')
-            .pipe(xmlnode({
-                tags: ['itemA', 'itemB'],
-                strict: true,
+            .on('data', tags({
+                itemA: data => itemAs.push(data),
+                itemB: data => itemBs.push(data),
             }))
-            .on('data', function(item) {
-                results.push(item);
-            })
-            .on('itemA', function(item) {
-                itemAs.push(item);
-            })
-            .on('itemB', function(item) {
-                itemBs.push(item);
-            })
-            .on('finish', function (err) {
+            .on('finish', function(err) {
                 itemAs.should.have.length(3);
                 itemBs.should.have.length(2);
-                results.should.have.length(5);
                 done(err);
             });
+
     });
 
-    it('should omit ns prefix and search for unprefixed tag', function (done) {
+    it('should omit ns prefix and search for unprefixed tag', function(done) {
         var result = [];
 
         fs.createReadStream(__dirname + '/six.xml')
@@ -284,7 +271,7 @@ describe('xmlnode', function () {
                 omitNsPrefix: true,
             }))
             .pipe(memory(result))
-            .on('finish', function (err) {
+            .on('finish', function(err) {
                 result.should.have.length(3);
                 done(err);
             });
