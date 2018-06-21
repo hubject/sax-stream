@@ -226,6 +226,28 @@ describe('xmlnode', function () {
     });
 
     it('should parse multiple tags and be able to listen for each tag respectively', function (done) {
+        var itemAs = [];
+        var itemBs = [];
+
+        fs.createReadStream(__dirname + '/five.xml')
+            .pipe(xmlnode({
+                tags: ['itemA', 'itemB'],
+                strict: true,
+            }))
+            .on('itemA', function(item) {
+                itemAs.push(item);
+            })
+            .on('itemB', function(item) {
+                itemBs.push(item);
+            })
+            .on('finish', function (err) {
+                itemAs.should.have.length(3);
+                itemBs.should.have.length(2);
+                done(err);
+            });
+    });
+
+    it('should parse multiple tags and be able to listen for each tag respectively (with data event)', function (done) {
         var results = [];
         var itemAs = [];
         var itemBs = [];
@@ -250,7 +272,6 @@ describe('xmlnode', function () {
                 results.should.have.length(5);
                 done(err);
             });
-
     });
 
     it('should omit ns prefix and search for unprefixed tag', function (done) {
